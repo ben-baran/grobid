@@ -92,6 +92,19 @@ public class FullTextParser extends AbstractParser {
 
     private EngineParsers parsers;
 
+
+    // New member variables for jargon-be-gone project:
+    public Document _document = null;
+    public String _labeledBodyText = null;
+    public String _labeledAnnexText = null;
+    public LayoutTokenization _bodyLayoutTokenization = null;
+    public List<LayoutToken> _annexTokenizations = null;
+    public BiblioItem _bibliographicItems = null;
+    public List<BibDataSet> _resCitations = null;
+    public List<Figure> _figures = null;
+    public List<Table> _tables = null;
+    public List<Equation> _equations = null;
+
     /**
      * TODO some documentation...
      */
@@ -110,6 +123,9 @@ public class FullTextParser extends AbstractParser {
 	}
 
 	/**
+     * NOTE: we have edited this. It no longer outputs any TEI structures
+     *       and will instead put data into FullTextParser's member variables.
+     * 
      * Machine-learning recognition of the complete full text structures.
      *
      * @param documentSource input
@@ -282,13 +298,25 @@ public class FullTextParser extends AbstractParser {
 				//System.out.println(rese);
 			}
 
-            // final combination
-            toTEI(doc, // document
-				rese, rese2, // labeled data for body and annex
-				layoutTokenization, tokenizationsBody2, // tokenization for body and annex
-				resHeader, // header 
-				figures, tables, equations, 
-				config);
+            this._document = doc;
+            this._labeledBodyText = rese;
+            this._labeledAnnexText = rese2;
+            this._bodyLayoutTokenization = layoutTokenization;
+            this._annexTokenizations = tokenizationsBody2;
+            this._bibliographicItems = resHeader;
+            this._resCitations = resCitations;
+            this._figures = figures;
+            this._tables = tables;
+            this._equations = equations;
+
+            // we've removed this unnecessary output for jargon-be-gone
+            // // final combination
+            // toTEI(doc, // document
+			// 	rese, rese2, // labeled data for body and annex
+			// 	layoutTokenization, tokenizationsBody2, // tokenization for body and annex
+			// 	resHeader, // header 
+			// 	figures, tables, equations, 
+			// 	config);
             return doc;
         } catch (GrobidException e) {
 			throw e;
