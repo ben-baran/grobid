@@ -5,6 +5,7 @@ import fr.limsi.wapiti.Wapiti;
 import org.grobid.core.GrobidModel;
 import org.grobid.core.GrobidModels;
 import org.grobid.core.exceptions.GrobidException;
+import org.grobid.core.utilities.GrobidProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class WapitiModel {
     }
 
     public WapitiModel(GrobidModel grobidModel) {
-        modelFile = new File(grobidModel.getModelPath());
+        modelFile = GrobidProperties.getModelPath(grobidModel);
         init();
     }
 
