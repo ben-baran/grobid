@@ -323,34 +323,38 @@ public class PDFALTOSaxHandler extends DefaultHandler {
                 String name = atts.getQName(i);
                 String value = atts.getValue(i);
 
-                if ((name != null) && (value != null)) {
-                    switch (name) {
-                        case "HPOS":
-                            double x = Double.parseDouble(value);
-                            if (x != currentX) {
-                                currentX = Math.abs(x);
-                            }
-                            break;
-                        case "VPOS":
-                            double y = Double.parseDouble(value);
-                            if (y != currentY) {
-                                currentY = Math.abs(y);
-                            }
-                            break;
-                        case "WIDTH":
-                            double width = Double.parseDouble(value);
-                            if (width != currentWidth) {
-                                currentWidth = Math.abs(width);
-                            }
-                            break;
-                        case "HEIGHT":
-                            double height = Double.parseDouble(value);
-                            if (height != currentHeight) {
-                                currentHeight = Math.abs(height);
-                            }
-                            break;
-                    }
-                }
+				try {
+					if ((name != null) && (value != null)) {
+						switch (name) {
+							case "HPOS":
+								double x = Double.parseDouble(value);
+								if (x != currentX) {
+									currentX = Math.abs(x);
+								}
+								break;
+							case "VPOS":
+								double y = Double.parseDouble(value);
+								if (y != currentY) {
+									currentY = Math.abs(y);
+								}
+								break;
+							case "WIDTH":
+								double width = Double.parseDouble(value);
+								if (width != currentWidth) {
+									currentWidth = Math.abs(width);
+								}
+								break;
+							case "HEIGHT":
+								double height = Double.parseDouble(value);
+								if (height != currentHeight) {
+									currentHeight = Math.abs(height);
+								}
+								break;
+						}
+					}
+				} catch (NumberFormatException nfe) {
+					// just try to ignore it.
+				}
             }
         } else if (qName.equals("TextBlock")) {
 			block = new Block();
@@ -426,43 +430,48 @@ public class PDFALTOSaxHandler extends DefaultHandler {
 				String name = atts.getQName(i);
 				String value = atts.getValue(i);
 
-				if ((name != null) && (value != null)) {
-					if (name.equals("ID")) {
-						;
-					} else if (name.equals("CONTENT")) {
-                        content = value;
-                    } else if (name.equals("STYLEREFS")) {
-                        fontId = value;
-                    }else if (name.equals("rotation")) {
-						if (value.equals("0"))
-							currentRotation = false;
-						else
-							currentRotation = true;
-					} else if (name.equals("HPOS")) {
-						double x = Double.parseDouble(value);
-						if (x != currentX) {
-							currentX = Math.abs(x);
-						}
-					} else if (name.equals("VPOS")) {
-						double y = Double.parseDouble(value);
-						if (y != currentY) {
-							currentY = Math.abs(y);
-						}
-					} else if (name.equals("base")) {
-						double base = Double.parseDouble(value);
-
-					} else if (name.equals("WIDTH")) {
-						double width = Double.parseDouble(value);
-						if (width != currentWidth) {
-							currentWidth = Math.abs(width);
-						}
-					} else if (name.equals("HEIGHT")) {
-						double height = Double.parseDouble(value);
-						if (height != currentHeight) {
-							currentHeight = Math.abs(height);
+				try {
+					if ((name != null) && (value != null)) {
+						if (name.equals("ID")) {
+							;
+						} else if (name.equals("CONTENT")) {
+							content = value;
+						} else if (name.equals("STYLEREFS")) {
+							fontId = value;
+						}else if (name.equals("rotation")) {
+							if (value.equals("0"))
+								currentRotation = false;
+							else
+								currentRotation = true;
+						} else if (name.equals("HPOS")) {
+							double x = Double.parseDouble(value);
+							if (x != currentX) {
+								currentX = Math.abs(x);
+							}
+						} else if (name.equals("VPOS")) {
+							double y = Double.parseDouble(value);
+							if (y != currentY) {
+								currentY = Math.abs(y);
+							}
+						} else if (name.equals("base")) {
+							double base = Double.parseDouble(value);
+	
+						} else if (name.equals("WIDTH")) {
+							double width = Double.parseDouble(value);
+							if (width != currentWidth) {
+								currentWidth = Math.abs(width);
+							}
+						} else if (name.equals("HEIGHT")) {
+							double height = Double.parseDouble(value);
+							if (height != currentHeight) {
+								currentHeight = Math.abs(height);
+							}
 						}
 					}
+				} catch (NumberFormatException nfe) {
+					// just try to ignore it
 				}
+				
 			}
 
             // process ligatures
